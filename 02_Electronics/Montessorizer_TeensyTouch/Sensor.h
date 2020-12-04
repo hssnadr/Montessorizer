@@ -14,10 +14,10 @@ public:
   Sensor(int pinSens_);   // constructor
   void begin();
   void update();
-  bool isTouched = false;
   float getSensorVal();
 
 private:
+  bool isTouched = false;
   int pinSens;
   int dataCollect[NRAW];
   float rangeDataCollect = 0;

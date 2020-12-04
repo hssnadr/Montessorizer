@@ -1,14 +1,13 @@
-#include "Arduino.h"
 #include "Utilities.h"
 #include "Sensor.h"
-// #include "Ledstrip.h"
+#include "Ledstrip.h"
 
 // --------------------------------------------------------------------------------
 //                            VARIABLES DECLARATION
 // --------------------------------------------------------------------------------
 // SENSORS
 #define DATAWINDOW 3
-unsigned int gate = 0;
+unsigned int gateTimer = 0;
 
 float dataWindow[DATAWINDOW];
 int curWindowIndex = 0;
@@ -18,7 +17,11 @@ float threshold0 = -666666.6f;
 float dThreshold = 0.0f;
 float dThreshold0 = 0.0f;
 boolean isTouch = false;
+boolean gateTouch = false;
 
+#define STEPSENSORS 30 // TO CHAA----------------------AAAANGE
+int sensorPath[STEPSENSORS];
+int curSensPathIndex = 0;
 Sensor sensor1 = Sensor(0);
 Sensor sensor2 = Sensor(1);
 Sensor sensor3 = Sensor(23);
@@ -26,7 +29,7 @@ int curSensor = -1; // Current sensor index
 int nSensors = 4;
 
 //LED STRIP
-// Ledstrip stripA = Ledstrip();
+Ledstrip stripA = Ledstrip(12, NPIXA);
 int progression = 0;
 
 // --------------------------------------------------------------------------------
@@ -44,8 +47,7 @@ void setup()
   }
 
   // LEDSTRIP
-  // strip.begin(); // This initializes the NeoPixel library.
-  // strip.show(); // Initialize all pixels to 'off'
+  stripA.begin();
 
   Serial.begin(57600);
 }
@@ -53,9 +55,9 @@ void setup()
 void loop()
 {
   // SENSORS
-  if (millis() % 100 == 0 && millis() != gate)
+  if (millis() % 100 == 0 && millis() != gateTimer)
   {
-    gate = millis();
+    gateTimer = millis();
 
     sensor1.update();
     sensor2.update();
@@ -154,13 +156,33 @@ void loop()
   }
 
   // LEDSTRIP
-  // curSensor++;
-  // curSensor = curSensor % nSensors;
-  // if(progression >= part2){
-  //   curSensor += nSensors;
-  // }
-  
-  // setLightPath(progression, blue);
-  // strip.show();
-  // delay(5);
+  if (millis() % 5 == 0){
+    // curSensor++;
+    // curSensor = curSensor % nSensors;
+    // if(progression >= part2){
+    //   curSensor += nSensors; ?????????????????????????????????????????????????
+    // }
+
+    // SENSOR PATH INDEX
+    if(isTouch != gateTouch) {
+      gateTouch = isTouch ;
+
+      if(isTouch) {
+        curSensPathIndex++;
+        curSensPathIndex = curSensPathIndex % STEPSENSORS ;
+      } else {
+        curSensPathIndex = 0 ;
+      }
+    }
+
+    // SENSOR PATH PROGRESSION
+    if(curSensor == sensorPath [curSensPathIndex]) {
+      progression = 100.0f * (float(curSensPathIndex) / STEPSENSORS) ;
+    } else {
+      progression = 0;
+    }
+
+    stripA.setLightPath(progression, BLUE);
+    stripA.show();
+  }
 }

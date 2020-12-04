@@ -25,7 +25,6 @@ void Sensor::begin()
 
 void Sensor::update()
 {
-
   int sens_ = touchRead(this->pinSens);
 
   // UPDATE RAW COLLECTION (fill without order)
