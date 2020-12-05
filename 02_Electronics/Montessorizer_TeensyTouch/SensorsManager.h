@@ -8,6 +8,7 @@ class SensorsManager
 {
 public:
   SensorsManager();
+  ~SensorsManager();
   void begin();
   void update();
   float getProgression();
@@ -37,6 +38,10 @@ private:
 };
 
 SensorsManager::SensorsManager()
+{
+}
+
+SensorsManager::~SensorsManager()
 {
 }
 
