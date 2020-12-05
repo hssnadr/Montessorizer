@@ -1,49 +1,39 @@
+#include "ColorSwatch.h"
 #include "SensorsManager.h"
 #include "Ledstrip.h"
 
-// --------------------------------------------------------------------------------
-//                            VARIABLES DECLARATION
-// --------------------------------------------------------------------------------
-// SENSORS
 SensorsManager sensorsManager = SensorsManager();
-
-//LED STRIP
 Ledstrip stripA = Ledstrip(12, NPIXA);
-int progression = 0;
+
+float progression = 0.0f;
+unsigned int gateTimeSensors = 0;
+unsigned int gateTimeLedstrip = 0;
 
 // --------------------------------------------------------------------------------
 //                                   MAIN
 // --------------------------------------------------------------------------------
 void setup()
 {
-  // SENSORS
   sensorsManager.begin();
-
-  // LEDSTRIP
   stripA.begin();
-
   Serial.begin(57600);
 }
-
 void loop()
 {
   // SENSORS
-  sensorsManager.update();
-  progression = sensorsManager.getProgression();
+  if (millis() % 100 == 0 && millis() != gateTimeSensors)
+  {
+    gateTimeSensors = millis();
+    sensorsManager.update();
+    progression = sensorsManager.getProgression();
+  } 
+
+  progression = 50;   
 
   // LEDSTRIP
-  if (millis() % 5 == 0)
+  if (millis() % 5 == 0 && millis() != gateTimeLedstrip)
   {
-    // curSensor++;
-    // curSensor = curSensor % nSensors;
-    // if(progression >= part2){
-    //   curSensor += nSensors; ?????????????????????????????????????????????????
-    // }
-
-    // progression =
-
-    progression = 0.5f;
-
+    gateTimeLedstrip = millis() ;
     stripA.setLightPath(progression, BLUE);
     stripA.show();
   }

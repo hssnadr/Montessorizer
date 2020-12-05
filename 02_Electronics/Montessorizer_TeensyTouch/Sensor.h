@@ -25,8 +25,7 @@ private:
 
   int curWindowIndex = 0;
   float meanWindow = 0.0f;
-  int maxWindow = 700; //1024; // init at max
-  // int maxWindow = 0;    // init at min
+  int maxWindow = 700; //1024; // init at max ----> ??
   float threshold = 700; //1024.0f;
 
   bool getTouched();
