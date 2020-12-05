@@ -2,6 +2,10 @@
   "files.associations": {
     "functional": "cpp",
     "tuple": "cpp",
-    "xlocnum": "cpp"
+    "xlocnum": "cpp",
+    "*.tcc": "cpp",
+    "cmath": "cpp",
+    "cstdlib": "cpp",
+    "cinttypes": "cpp"
   }
 }
