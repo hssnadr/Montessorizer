@@ -30,6 +30,7 @@ void Ledstrip::show()
 void Ledstrip::setLightPath(int prog_, uint32_t col_)
 {
   prog_ = constrain(prog_, 0, 100);
+
   int ledprog_ = 0;
   int progPix_ = 0;
 
