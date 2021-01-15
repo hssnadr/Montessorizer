@@ -29,9 +29,9 @@ private:
 
   int sensorPath[STEPSENSORS];
   int curSensPathIndex = 0;
-  Sensor sensor1 = Sensor(0);
-  Sensor sensor2 = Sensor(1);
-  Sensor sensor3 = Sensor(23);
+  Sensor sensor1 = Sensor(15);
+  Sensor sensor2 = Sensor(16);
+  Sensor sensor3 = Sensor(17);
   int curSensor = -1; // Current sensor index
 };
 
